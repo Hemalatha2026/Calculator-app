@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -12,7 +11,7 @@
             justify-content: center;
             align-items: center;
             height: 100vh;
-            background-color:black;
+            background-color: black;
         }
         .calculator {
             background: white;
@@ -27,7 +26,7 @@
             font-size: 24px;
             margin-bottom: 10px;
             padding: 10px;
-            border: 1px solid  grey;
+            border: 1px solid grey;
             border-radius: 5px;
         }
         .buttons {
@@ -62,15 +61,15 @@
         <input type="text" class="display" id="display" disabled>
         <div class="buttons">
             <button class="button" onclick="clearDisplay()">C</button>
-            <button class="button" onclick="appendToDisplay('M+')">M+</button>
-            <button class="button" onclick="appendToDisplay('RLC')">RLC</button>
-            <button class="button" onclick="appendToDisplay('()')">(</button>
-            <button class="button" onclick="appendToDisplay('()')">)</button>
-            <button class="button" onclick="appendToDisplay('ln')">ln</button>
-            <button class="button" onclick="appendToDisplay('log')">log</button>
-            <button class="button" onclick="appendToDisplay('tan')">tan</button>
-            <button class="button" onclick="appendToDisplay('cos')">cos</button>
-            <button class="button" onclick="appendToDisplay('sin')">sin</button>
+            <button class="button" onclick="addToMemory()">M+</button>
+            <button class="button" onclick="recallLastCalculation()">RLC</button>
+            <button class="button" onclick="appendToDisplay('(')">(</button>
+            <button class="button" onclick="appendToDisplay(')')">)</button>
+            <button class="button" onclick="calculateLog()">log</button>
+            <button class="button" onclick="calculateLn()">ln</button>
+            <button class="button" onclick="calculateSin()">sin</button>
+            <button class="button" onclick="calculateCos()">cos</button>
+            <button class="button" onclick="calculateTan()">tan</button>
             <button class="button" onclick="appendToDisplay('*')">*</button>
             <button class="button" onclick="appendToDisplay('/')">/</button>
             <button class="button" onclick="appendToDisplay('-')">-</button>
@@ -86,7 +85,6 @@
             <button class="button" onclick="appendToDisplay('1')">1</button>
             <button class="button" onclick="appendToDisplay('0')">0</button>
             <button class="button" onclick="calculateResult()">=</button>
-            
         </div>
         <div class="history" id="history"></div>
     </div>
@@ -112,6 +110,97 @@
                 display.value = 'Error';
             }
         }
+
+        function calculateSin() {
+            try {
+                let currentValue = eval(display.value);
+                let result = Math.sin(currentValue * Math.PI / 180); 
+                history.innerHTML += `<div>sin(${display.value}) = ${result}</div>`;
+                display.value = result;
+            } catch (error) {
+                display.value = 'Error';
+            }
+        }
+        function calculateCos() {
+            try {
+                let currentValue = eval(display.value);
+                let result = Math.cos(currentValue * Math.PI / 180); 
+                history.innerHTML += `<div>sin(${display.value}) = ${result}</div>`;
+                display.value = result;
+            } catch (error) {
+                display.value = 'Error';
+            }
+        }
+        function calculateTan() {
+            try {
+                let currentValue = eval(display.value);
+                let result = Math.tan(currentValue * Math.PI / 180); 
+                history.innerHTML += `<div>sin(${display.value}) = ${result}</div>`;
+                display.value = result;
+            } catch (error) {
+                display.value = 'Error';
+            }
+        }
+        function calculateLog() {
+    try {
+        let currentValue = eval(display.value);  
+        if (currentValue <= 0) {
+            display.value = 'Error';  
+        } else {
+            let result = Math.log10(currentValue);  
+            history.innerHTML += `<div>log(${display.value}) = ${result}</div>`; 
+            display.value = result;  
+        }
+    } catch (error) {
+        display.value = 'Error';  
+    }
+}
+
+function calculateLn() {
+    try {
+        let currentValue = eval(display.value);  
+        if (currentValue <= 0) {
+            display.value = 'Error';  
+        } else {
+            let result = Math.log(currentValue);  
+            history.innerHTML += `<div>ln(${display.value}) = ${result}</div>`; 
+            display.value = result;  
+        }
+    } catch (error) {
+        display.value = 'Error';  
+    }
+}
+let memory = 0;  
+let lastCalculation = '';  
+
+function addToMemory() {
+    try {
+        let currentValue = eval(display.value);
+        memory += currentValue;
+        history.innerHTML += `<div>Memory + ${currentValue}</div>`;
+        display.value = '';  
+    } catch (error) {
+        display.value = 'Error';  
+    }
+}
+function recallLastCalculation() {
+    if (lastCalculation) {
+        display.value = lastCalculation;  
+    } else {
+        display.value = 'No Last Calc';  
+    }
+}
+function calculateResult() {
+    try {
+        let result = eval(display.value);
+        lastCalculation = result;  
+        history.innerHTML += `<div>${display.value} = ${result}</div>`;
+        display.value = result;
+    } catch (error) {
+        display.value = 'Error';
+    }
+}
+
     </script>
 </body>
 </html>
